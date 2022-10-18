@@ -2,7 +2,14 @@ const express = require("express");
 const { Student } = require("../models/students");
 const router = express.Router();
 
-const studentList = (req, res) => {};
+///////// GET /////////
+
+const studentList = async (req, res) => {
+  const students = await Student.find().sort({ name: 1 });
+  res.send(students);
+};
+
+/////POST ///////
 
 const newStudent = async (req, res) => {
   const student = new Student(req.body);
@@ -18,17 +25,46 @@ const newStudent = async (req, res) => {
   }
 };
 
-const studentDetail = (req, res) => {
-  const id = parseInt(req.params, id);
+//// SEARCHING ////
+
+const studentDetail = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const student = await Student.findById(id);
+    if (!student) return res.status(404).send("ID NOT FOund !");
+    res.send(student);
+  } catch (err) {
+    return res.status(404).send("ID NOT FOund !");
+  }
 };
 
-const studentUpdate = (req, res) => {
-  const id = parseInt(req.params, id);
+/////////// UPDATE ///
+
+const studentUpdate = async (req, res) => {
+  const id = req.params.id;
   const uppdateData = req.body;
+
+  try {
+    const student = await Student.findByIdAndUpdate(id, uppdateData, { new: true, useFindAndModify: false });
+    if (!student) return res.status(404).send("ID NOT FOund !");
+    res.send(student);
+  } catch (err) {
+    return res.status(404).send("ID NOT FOund !");
+  }
 };
 
-const studentDelete = (req, res) => {
-  const id = parseInt(req.params, id);
+///////// DELETE //////
+
+const studentDelete = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const student = await Student.findByIdAndDelete(id);
+    if (!student) return res.status(404).send("ID NOT FOund !");
+    res.send(student);
+  } catch (err) {
+    return res.status(404).send("ID NOT FOund !");
+  }
 };
 
 router.route("/").get(studentList).post(newStudent);
