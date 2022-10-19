@@ -18,7 +18,8 @@ const newUser = async (req, res) => {
 
   try {
     const result = await user.save();
-    res.send({ name: result.name, email: result.email });
+    const token = user.generateJWT();
+    res.send({ token: token, data: { name: result.name, email: result.email } });
   } catch (err) {
     const errMsgs = [];
     for (field in err.errors) {
@@ -27,5 +28,6 @@ const newUser = async (req, res) => {
     return res.status(400).send(errMsgs);
   }
 };
+
 router.route("/").post(newUser);
 module.exports = router;

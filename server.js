@@ -1,7 +1,10 @@
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 const app = require("./app");
 const mongoose = require("mongoose");
 
-console.log(app.get("env")); ////check environmet
+//console.log(app.get("env")); ////check environmet---> set by express
+//console.log(process.env); ////check environmet---> set by Node
 
 mongoose
   .connect("mongodb://localhost:27017/my-student-2")
@@ -13,8 +16,8 @@ mongoose
 //   useCreateIndex: true,
 // }
 
-const port = 3000;
+const port = process.env.port;
 
 app.listen(port, () => {
-  console.log("Lising on port ${port}...");
+  console.log(`"Lising on port ...${port}"`);
 });
