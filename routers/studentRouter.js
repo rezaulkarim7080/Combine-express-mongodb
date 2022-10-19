@@ -42,10 +42,10 @@ const studentDetail = async (req, res) => {
 
 const studentUpdate = async (req, res) => {
   const id = req.params.id;
-  const uppdateData = req.body;
+  const updateData = req.body;
 
   try {
-    const student = await Student.findByIdAndUpdate(id, uppdateData, { new: true, useFindAndModify: false });
+    const student = await Student.findByIdAndUpdate(id, updateData, { new: true, useFindAndModify: false });
     if (!student) return res.status(404).send("ID NOT FOund !");
     res.send(student);
   } catch (err) {
