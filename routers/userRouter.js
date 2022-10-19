@@ -1,10 +1,10 @@
 const express = require("express");
-//const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { User } = require("../models/user");
 const { route } = require("./studentRouter");
 const router = express.Router();
 
-/// Check user By Email
+/// Check user By Email ////
 
 const newUser = async (req, res) => {
   let user = await User.findOne({ email: req.body.email });

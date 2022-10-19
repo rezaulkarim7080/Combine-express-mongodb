@@ -1,10 +1,10 @@
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
-// /// salt
-// const genSalt = async () => {
-//   const salt = await bcrypt.genSalt(10);
-//   const hashPassword = await bcrypt.hash("12345", salt);
-//   console.log(hashPassword);
-// };
+/// salt
+const genSalt = async () => {
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash("987", salt);
+  console.log(hashPassword);
+};
 
-// genSalt();
+genSalt();
