@@ -1,10 +1,18 @@
 const express = require("express");
 const { Student } = require("../models/students");
 const router = express.Router();
+const authorize = require("../middlewares/authorize");
+const admin = require("../middlewares/admin");
 
 ///////// GET /////////
 
 const studentList = async (req, res) => {
+  //Authorization : Bearer <token>
+  // let token = req.header("Authorization");
+  // if (!token) res.status(404).send("Access denied No token Provided !");
+
+  ///////////
+
   const students = await Student.find().sort({ name: 1 });
   res.send(students);
 };
@@ -67,8 +75,8 @@ const studentDelete = async (req, res) => {
   }
 };
 
-router.route("/").get(studentList).post(newStudent);
+router.route("/").get(authorize, studentList).post(newStudent);
 
-router.route("/:id").get(studentDetail).put(studentUpdate).delete(studentDelete);
+router.route("/:id").get(studentDetail).put(studentUpdate).delete([authorize, admin], studentDelete);
 
 module.exports = router;

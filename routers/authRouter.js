@@ -8,9 +8,8 @@ const router = express.Router();
 const authUser = async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (!user) return res.status(404).send("Invalid email or password!");
-
   const validUser = bcrypt.compare(req.body.password, user.password);
-  if (!validUser) return res.status(404).send("Invalid email or password!");
+  if (!validUser) return res.status(404).send("Invalid password!");
 
   const token = user.generateJWT();
   res.send({ token: token });
